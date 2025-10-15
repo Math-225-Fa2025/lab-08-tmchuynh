@@ -511,6 +511,9 @@ uoe_art <- uoe_art %>%
     year = as.numeric(year)
   )
 ```
+
+**Explanation of warnings:** The warnings occur because some entries don't have parentheses (so `separate()` creates NA values) and some date strings don't contain 4-digit years (so `as.numeric()` creates NA values). This is expected and acceptable since not all art pieces have date information, and our goal is simply to extract year information where it's readily available.
+
 10. Print out a summary of the data frame using the `skim()` function. How many pieces have artist info missing? How many have year info missing?
 
 ```{r summary-data, eval=TRUE}
