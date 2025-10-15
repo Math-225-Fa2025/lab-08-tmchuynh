@@ -9,3 +9,8 @@ library(rvest)
 #' Base URL targeting the first 10 items (offset=0) from the collection
 first_url <- "https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22?offset=0"
 
+# read first page --------------------------------------------------------------
+
+#' Read and parse the HTML content from the first page
+#' Downloads the webpage and creates an HTML document object for scraping
+page <- read_html(first_url)
