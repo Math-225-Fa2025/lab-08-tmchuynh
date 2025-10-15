@@ -241,6 +241,13 @@ artists <- page %>%
 
 3.  Fill in the blanks to organize everything in a tibble.
 
+```{r eval = TRUE}
+first_ten <- tibble(
+  title = titles,
+  artist = artists,
+  link = links
+)
+```
 
 ## Scrape the next page
 
