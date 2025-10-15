@@ -597,6 +597,15 @@ The most commonly featured artist can be identified from the output above. They 
 
 ```{r count-child-titles, eval=TRUE}
 # Count titles containing "child" (case-insensitive)
+child_titles <- uoe_art %>%
+  filter(str_detect(title, regex("child", ignore_case = TRUE)))
+
+nrow(child_titles)
+
+# Show some examples
+child_titles %>%
+  select(title, artist) %>%
+  slice(1:5)
 ```
 
 Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards and review the md document on GitHub to make sure you're happy with the final state of your work.*
