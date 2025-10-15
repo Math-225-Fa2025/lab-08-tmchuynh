@@ -31,3 +31,12 @@ urls <- glue("{root}{numbers}")
 #'
 #' returnsuoe_art Complete data frame containing all scraped art collection records
 uoe_art <- map_dfr(urls, scrape_page)
+
+# write out data frame ---------------------------------------------------------
+
+#' Export scraped data to CSV file
+#'
+#' Saves the complete University of Edinburgh art collection dataset to a CSV file
+#' for further analysis and processing. The file is stored in the data directory
+#' with UTF-8 encoding to preserve special characters in artwork titles and descriptions.
+write_csv(uoe_art, file = "lab-08-tmchuynh/data/uoe-art.csv")
