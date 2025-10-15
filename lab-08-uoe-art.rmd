@@ -217,6 +217,14 @@ See the help for `str_replace()` to find out how it works. Remember that the fir
 
 1.  Click on one of art piece titles in your browser and take note of the url of the webpage it takes you to. Think about how that url compares to what we scraped above? How is it different? Using `str_replace()`, fix the URLs. You'll note something special happening in the `pattern` to replace. We want to replace the `.`, but we have it as `\\.`. This is because the period `.` is a special character and so we need to escape it first with backslashes, `\\`s.
 
+```{r}
+links <- page %>%
+  html_nodes(".iteminfo") %>%
+  html_node("h3 a") %>%
+  html_attr("href") %>%
+  str_replace("^", "https://collections.ed.ac.uk")
+```
+
 ## Artists
 
 2.  Fill in the blanks to scrape artist names. Use SelectorGadget to identify which CSS selector contains the artist names. Remember to change `eval = TRUE`.
