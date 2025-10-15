@@ -461,6 +461,7 @@ uoe_art <- map_dfr(urls, scrape_page)
 
 ```{r eval = TRUE}
 # Write the data frame to a CSV file in the data folder
+write_csv(uoe_art, "data/uoe_art.csv")
 ```
 
 ::: {.marker}
