@@ -56,3 +56,10 @@ first_ten <- tibble(
   artist = artists,  # Artist names
   link = links      # URLs to detailed artwork pages
 )
+
+# scrape second ten paintings --------------------------------------------------
+
+#' URL for the second page of search results (items 11-20)
+#' Similar to first_url but with offset=10 to get next 10 items
+second_url <- "https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22?offset=10"
+
