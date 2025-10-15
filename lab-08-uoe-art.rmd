@@ -21,7 +21,7 @@ library(tidyverse)
 
 The University of Edinburgh Art Collection *"supports the world-leading research and teaching that happens within the University. Comprised of an astonishing range of objects and ideas spanning two millennia and a multitude of artistic forms, the collection reflects not only the long and rich trajectory of the University, but also major national and international shifts in art history."*[^lab-08-uoe-art-1].
 
-```{marginfigure}
+```
 See the sidebar [here](https://collections.ed.ac.uk/art) and note that there are 2970 pieces in the art collection we're collecting data on. Note that more pieces may have been added or some pieces may have been removed between when this lab was written and when you're working on it.
 ```
 
@@ -113,7 +113,7 @@ paths_allowed("https://collections.ed.ac.uk/art)")
 
 ## Scraping a single page
 
-```{marginfigure}
+```
 **Tip:** To run the code you can highlight or put your cursor next to the lines of code you want to run and hit Command+Enter.
 ```
 
@@ -163,7 +163,7 @@ page %>%
 
 And get rid of all the spurious white space in the text with `str_squish()`, which reduces repeated whitespace inside a string.
 
-```{marginfigure}
+```
 Take a look at the help for `str_squish()` to find out more about how it works and how it's different from `str_trim()`.
 ```
 
@@ -211,7 +211,7 @@ page %>%
 These don't really look like URLs as we know then though.
 They're relative links.
 
-```{marginfigure}
+```
 See the help for `str_replace()` to find out how it works. Remember that the first argument is passed in from the pipeline, so you just need to define the `pattern` and `replacement` arguments.
 ```
 
@@ -268,7 +268,7 @@ function_name <- function(input) {
 
 Then, a function for scraping a page should look something like:
 
-```{marginfigure}
+```
 **Reminder:** Function names should be short but evocative verbs.
 ```
 
@@ -303,7 +303,7 @@ Work in `scripts/03-scrape-page-many.R`.
 We went from manually scraping individual pages to writing a function to do the same.
 Next, we will work on making our workflow a little more efficient by using R to iterate over all pages that contain information on the art collection.
 
-```{marginfigure}
+```
 **Reminder:** The collection has 2970 pieces in total.
 ```
 
@@ -373,7 +373,7 @@ Luckily, there's a function that does just this: `separate()`!
 
 And once we have completed separating the single `title` column into `title` and `date`, we need to do further clean-up in the `date` column to get rid of extraneous `)`s with `str_remove()`, capture year information, and save the data as a numeric variable.
 
-```{marginfigure}
+```
 **Hint:** Remember escaping special characters from yesterday's lecture? You'll need to use that trick again.
 ```
 
@@ -381,7 +381,7 @@ And once we have completed separating the single `title` column into `title` and
 10. Print out a summary of the data frame using the `skim()` function. How many pieces have artist info missing? How many have year info missing?
 11. Make a histogram of years. Use a reasonable binwidth. Do you see anything out of the ordinary?
 
-```{marginfigure}
+```
 **Hint:** You'll want to use `mutate()` and `if_else()` or `case_when()` to implement the correction.
 ```
 
@@ -391,7 +391,7 @@ And once we have completed separating the single `title` column into `title` and
 
 13. Who is the most commonly featured artist in the collection? Do you know them? Any guess as to why the university has so many pieces from them?
 
-```{marginfigure}
+```
 **Hint:** `str_subset()` can be helful here. You should consider how you might capture titles where the word appears as "child" and "Child".
 ```
 
