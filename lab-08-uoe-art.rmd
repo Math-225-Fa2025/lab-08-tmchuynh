@@ -553,6 +553,14 @@ uoe_art %>%
 
 ```{r correct-outlier, eval=TRUE}
 # Correct the outlier year (assuming the piece with year 2 should be from a different century)
+uoe_art <- uoe_art %>%
+  mutate(
+    year = case_when(
+      year == 2 ~ 2002, # Adjust based on actual investigation of the artwork
+      TRUE ~ year
+    )
+  )
+
 # Recreate the histogram
 
 *If you haven't done so recently, knit, commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
