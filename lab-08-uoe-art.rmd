@@ -17,6 +17,9 @@ knitr::opts_chunk$set(eval = TRUE)
 library(robotstxt)
 library(rvest)
 library(tidyverse)
+library(glue)
+library(stringr)
+library(skimr)
 ```
 
 The University of Edinburgh Art Collection *"supports the world-leading research and teaching that happens within the University. Comprised of an astonishing range of objects and ideas spanning two millennia and a multitude of artistic forms, the collection reflects not only the long and rich trajectory of the University, but also major national and international shifts in art history."*[^lab-08-uoe-art-1].
