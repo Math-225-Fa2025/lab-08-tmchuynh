@@ -514,7 +514,11 @@ uoe_art <- uoe_art %>%
 10. Print out a summary of the data frame using the `skim()` function. How many pieces have artist info missing? How many have year info missing?
 
 ```{r summary-data, eval=TRUE}
+skim(uoe_art)
 ```
+
+Based on the summary, we can see the number of missing values for artist and year information in the output above.
+
 11. Make a histogram of years. Use a reasonable binwidth. Do you see anything out of the ordinary?
 
 ```{r histogram-years, eval=TRUE}
