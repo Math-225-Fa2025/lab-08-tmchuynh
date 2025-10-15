@@ -544,6 +544,11 @@ There appears to be an outlier with a very early year (possibly around year 2 or
 
 ```{r find-outlier, eval=TRUE}
 # Find the piece with the unusual year
+uoe_art %>%
+  filter(!is.na(year)) %>%
+  arrange(year) %>%
+  slice(1) %>%
+  select(title, date, year, link)
 ```
 
 ```{r correct-outlier, eval=TRUE}
