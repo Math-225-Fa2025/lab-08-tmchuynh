@@ -128,10 +128,6 @@ Then, we read the page at this url with the `read_html()` function from the **rv
 The code for this is already provided in `01-scrape-page-one.R`.
 
 ```{r eval = TRUE}
-# Load required libraries
-library(tidyverse)
-library(rvest)
-
 # set url
 first_url <- "https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22?offset=0"
 
