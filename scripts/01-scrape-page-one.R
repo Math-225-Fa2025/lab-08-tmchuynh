@@ -63,3 +63,12 @@ first_ten <- tibble(
 #' Similar to first_url but with offset=10 to get next 10 items
 second_url <- "https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22?offset=10"
 
+#' Read and parse HTML content from the second page
+page <- read_html(second_url)
+
+#' Extract titles from second page using same methodology as first page
+titles <- page %>%
+  html_nodes(".iteminfo") %>%
+  html_node("h3 a") %>%
+  html_text() %>%
+  str_squish()
