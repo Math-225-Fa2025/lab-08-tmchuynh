@@ -18,3 +18,10 @@ scrape_page <- function(url) {
     html_node("h3 a") %>%
     html_text() %>%
     str_squish()
+
+  # scrape links
+  links <- page %>%
+    html_nodes(".iteminfo") %>%
+    html_node("h3 a") %>%
+    html_attr("href") %>%
+    str_replace("\\.", "https://collections.ed.ac.uk")
