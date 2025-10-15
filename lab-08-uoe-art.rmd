@@ -522,6 +522,19 @@ Based on the summary, we can see the number of missing values for artist and yea
 11. Make a histogram of years. Use a reasonable binwidth. Do you see anything out of the ordinary?
 
 ```{r histogram-years, eval=TRUE}
+uoe_art %>%
+  filter(!is.na(year)) %>%
+  ggplot(aes(x = year)) +
+  geom_histogram(binwidth = 10, fill = "steelblue", alpha = 0.7) +
+  labs(
+    title = "Distribution of Art Piece Years",
+    x = "Year",
+    y = "Count"
+  ) +
+  theme_minimal()
+```
+
+There appears to be an outlier with a very early year (possibly around year 2 or similar), which seems historically implausible for this collection.
 
 ```
 **Hint:** You'll want to use `mutate()` and `if_else()` or `case_when()` to implement the correction.
