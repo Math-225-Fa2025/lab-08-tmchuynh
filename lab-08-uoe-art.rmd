@@ -574,6 +574,8 @@ uoe_art %>%
   theme_minimal()
 ```
 
+The error likely occurred because our regex pattern `\\d{4}` captured any 4 consecutive digits, which might have been part of a longer number or date format that didn't represent the actual year.
+
 *If you haven't done so recently, knit, commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
 13. Who is the most commonly featured artist in the collection? Do you know them? Any guess as to why the university has so many pieces from them?
