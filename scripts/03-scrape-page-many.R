@@ -20,3 +20,14 @@ source(
 root <- "https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22?offset="
 numbers <- seq(from = 0, to = 2900, by = 10)
 urls <- glue("{root}{numbers}")
+
+# map over all urls and output a data frame ------------------------------------
+
+#' Scrape data from all URLs and combine into single data frame
+#'
+#' Uses map_dfr() to apply the scrape_page() function to each URL in the urls vector.
+#' The function automatically combines all individual page results into one
+#' comprehensive data frame with consistent column structure.
+#'
+#' returnsuoe_art Complete data frame containing all scraped art collection records
+uoe_art <- map_dfr(urls, scrape_page)
