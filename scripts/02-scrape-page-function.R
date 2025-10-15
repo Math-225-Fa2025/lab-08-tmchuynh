@@ -8,6 +8,10 @@ library(stringr)
 # function: scrape_page --------------------------------------------------------
 
 #' Scrape web page content for titles, links, and artists
+#'
+#' This function scrapes a web page and extracts titles (from h2 elements),
+#' links (href attributes from anchor elements), and artists (from span elements).
+#' The extracted data is returned as a tibble with three columns.
 scrape_page <- function(url) {
   # read page
   page <- read_html(url)
