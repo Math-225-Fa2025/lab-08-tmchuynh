@@ -25,3 +25,14 @@ titles <- page %>%
   html_node("h3 a") %>%             # Select title links within h3 tags
   html_text() %>%                   # Extract text content
   str_squish()                      # Remove extra whitespace
+
+# scrape links -----------------------------------------------------------------
+
+#' Extract artwork detail page URLs
+#' Scrapes href attributes and converts relative URLs to absolute URLs
+#' Replaces relative path notation with full domain URL
+links <- page %>%
+  html_nodes(".iteminfo") %>%       # Select item information containers
+  html_node("h3 a") %>%            # Select title links
+  html_attr("href") %>%            # Extract href attribute values
+  str_replace("\\.", "https://collections.ed.ac.uk")  # Convert to absolute URLs
