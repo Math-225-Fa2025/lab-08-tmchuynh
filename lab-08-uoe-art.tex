@@ -77,6 +77,16 @@
 \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
 \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
 \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
 \newsavebox\pandoc@box
@@ -441,6 +451,16 @@ See the help for `str_replace()` to find out how it works. Remember that the fir
   with backslashes, \texttt{\textbackslash{}\textbackslash{}}s.
 \end{enumerate}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{links }\OtherTok{\textless{}{-}}\NormalTok{ page }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{html\_nodes}\NormalTok{(}\StringTok{".iteminfo"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{html\_node}\NormalTok{(}\StringTok{"h3 a"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{html\_attr}\NormalTok{(}\StringTok{"href"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{str\_replace}\NormalTok{(}\StringTok{"\^{}"}\NormalTok{, }\StringTok{"https://collections.ed.ac.uk"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
 \subsection{Artists}\label{artists}
 
 \begin{enumerate}
@@ -453,6 +473,16 @@ See the help for `str_replace()` to find out how it works. Remember that the fir
   change \texttt{eval\ =\ TRUE}.
 \end{enumerate}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{artists }\OtherTok{\textless{}{-}}\NormalTok{ page }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{html\_nodes}\NormalTok{(}\StringTok{".iteminfo"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{html\_node}\NormalTok{(}\StringTok{"h4 a"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{html\_text}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{str\_squish}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
 \subsection{Put it altogether}\label{put-it-altogether}
 
 \begin{enumerate}
@@ -462,6 +492,16 @@ See the help for `str_replace()` to find out how it works. Remember that the fir
 \item
   Fill in the blanks to organize everything in a tibble.
 \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{first\_ten }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}
+  \AttributeTok{title =}\NormalTok{ titles,}
+  \AttributeTok{artist =}\NormalTok{ artists,}
+  \AttributeTok{link =}\NormalTok{ links}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \subsection{Scrape the next page}\label{scrape-the-next-page}
 
@@ -479,6 +519,44 @@ See the help for `str_replace()` to find out how it works. Remember that the fir
 If you haven't done so recently, c\emph{ommit and push your changes to
 GitHub with an appropriate commit message. Make sure to commit and push
 all changed files so that your Git pane is cleared up afterwards.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# set url for second page}
+\NormalTok{second\_url }\OtherTok{\textless{}{-}} \StringTok{"https://collections.ed.ac.uk/art/search/*:*/Collection:\%22edinburgh+college+of+art\%7C\%7C\%7CEdinburgh+College+of+Art\%22?offset=10"}
+
+\CommentTok{\# read html page}
+\NormalTok{page }\OtherTok{\textless{}{-}} \FunctionTok{read\_html}\NormalTok{(second\_url)}
+
+\CommentTok{\# scrape titles}
+\NormalTok{titles }\OtherTok{\textless{}{-}}\NormalTok{ page }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{html\_nodes}\NormalTok{(}\StringTok{".iteminfo"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{html\_node}\NormalTok{(}\StringTok{"h3 a"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{html\_text}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{str\_squish}\NormalTok{()}
+
+\CommentTok{\# scrape links}
+\NormalTok{links }\OtherTok{\textless{}{-}}\NormalTok{ page }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{html\_nodes}\NormalTok{(}\StringTok{".iteminfo"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{html\_node}\NormalTok{(}\StringTok{"h3 a"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{html\_attr}\NormalTok{(}\StringTok{"href"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{str\_replace}\NormalTok{(}\StringTok{"\^{}"}\NormalTok{, }\StringTok{"https://collections.ed.ac.uk"}\NormalTok{)}
+
+\CommentTok{\# scrape artists}
+\NormalTok{artists }\OtherTok{\textless{}{-}}\NormalTok{ page }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{html\_nodes}\NormalTok{(}\StringTok{".iteminfo"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{html\_node}\NormalTok{(}\StringTok{"h4 a"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{html\_text}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{str\_squish}\NormalTok{()}
+
+\CommentTok{\# create data frame}
+\NormalTok{second\_ten }\OtherTok{\textless{}{-}} \FunctionTok{tibble}\NormalTok{(}
+  \AttributeTok{title =}\NormalTok{ titles,}
+  \AttributeTok{artist =}\NormalTok{ artists,}
+  \AttributeTok{link =}\NormalTok{ links}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \subsection{Functions}\label{functions}
 
@@ -555,6 +633,43 @@ Then, a function for scraping a page should look something like:
   exercises. Name the function \texttt{scrape\_page}.
 \end{enumerate}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{scrape\_page }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(url) \{}
+  \CommentTok{\# read html page}
+\NormalTok{  page }\OtherTok{\textless{}{-}} \FunctionTok{read\_html}\NormalTok{(url)}
+
+  \CommentTok{\# scrape titles}
+\NormalTok{  titles }\OtherTok{\textless{}{-}}\NormalTok{ page }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{html\_nodes}\NormalTok{(}\StringTok{".iteminfo"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{html\_node}\NormalTok{(}\StringTok{"h3 a"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{html\_text}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{str\_squish}\NormalTok{()}
+
+  \CommentTok{\# scrape links}
+\NormalTok{  links }\OtherTok{\textless{}{-}}\NormalTok{ page }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{html\_nodes}\NormalTok{(}\StringTok{".iteminfo"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{html\_node}\NormalTok{(}\StringTok{"h3 a"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{html\_attr}\NormalTok{(}\StringTok{"href"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{str\_replace}\NormalTok{(}\StringTok{"\^{}"}\NormalTok{, }\StringTok{"https://collections.ed.ac.uk"}\NormalTok{)}
+
+  \CommentTok{\# scrape artists}
+\NormalTok{  artists }\OtherTok{\textless{}{-}}\NormalTok{ page }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{html\_nodes}\NormalTok{(}\StringTok{".iteminfo"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{html\_node}\NormalTok{(}\StringTok{"h4 a"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{html\_text}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{str\_squish}\NormalTok{()}
+
+  \CommentTok{\# create and return tibble}
+  \FunctionTok{tibble}\NormalTok{(}
+    \AttributeTok{title =}\NormalTok{ titles,}
+    \AttributeTok{artist =}\NormalTok{ artists,}
+    \AttributeTok{link =}\NormalTok{ links}
+\NormalTok{  )}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
 Test out your new function by running the following in the console. Does
 the output look right? Discuss with teammates whether you're getting the
 same results as before.
@@ -562,9 +677,46 @@ same results as before.
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{scrape\_page}\NormalTok{(first\_url)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 3
+##    title                               artist link                              
+##    <chr>                               <chr>  <chr>                             
+##  1 Portrait of a Man (1954)            <NA>   https://collections.ed.ac.uk./rec~
+##  2 Unknown (MAR 1960)                  <NA>   https://collections.ed.ac.uk./rec~
+##  3 Male Portrait (1969)                <NA>   https://collections.ed.ac.uk./rec~
+##  4 The Sofa (1950)                     <NA>   https://collections.ed.ac.uk./rec~
+##  5 Untitled - Woman with Bun (1963)    <NA>   https://collections.ed.ac.uk./rec~
+##  6 Untitled (2007)                     <NA>   https://collections.ed.ac.uk./rec~
+##  7 Via D' Italia (Unknown)             <NA>   https://collections.ed.ac.uk./rec~
+##  8 Unknown (1950)                      <NA>   https://collections.ed.ac.uk./rec~
+##  9 Northern Highland Landscape (1934)  <NA>   https://collections.ed.ac.uk./rec~
+## 10 Untitled - City Highrise (Feb 1962) <NA>   https://collections.ed.ac.uk./rec~
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \FunctionTok{scrape\_page}\NormalTok{(second\_url)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 3
+##    title                                                    artist link         
+##    <chr>                                                    <chr>  <chr>        
+##  1 Discophoros                                              <NA>   https://coll~
+##  2 Untitled (1983-1984)                                     <NA>   https://coll~
+##  3 Unknown (1950)                                           <NA>   https://coll~
+##  4 Opuntia Basilaris Engelmann and Bigelow 1856 (1993-1994) <NA>   https://coll~
+##  5 Untitled (1990-1991)                                     <NA>   https://coll~
+##  6 Still Breathing                                          <NA>   https://coll~
+##  7 Untitled                                                 <NA>   https://coll~
+##  8 South Frieze of the Parthenon Frieze (1836-1837)         <NA>   https://coll~
+##  9 Venus Marina                                             <NA>   https://coll~
+## 10 Rabbit                                                   <NA>   https://coll~
+\end{verbatim}
 
 If you haven't done so recently, c\emph{ommit and push your changes to
 GitHub with an appropriate commit message. Make sure to commit and push
@@ -618,6 +770,19 @@ of numbers.
   Fill in the blanks to construct the list of URLs.
 \end{enumerate}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Define root URL}
+\NormalTok{root }\OtherTok{\textless{}{-}} \StringTok{"https://collections.ed.ac.uk/art/search/*:*/Collection:\%22edinburgh+college+of+art\%7C\%7C\%7CEdinburgh+College+of+Art\%22?offset="}
+
+\CommentTok{\# Create sequence of offsets}
+\NormalTok{offsets }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\AttributeTok{from =} \DecValTok{0}\NormalTok{, }\AttributeTok{to =} \DecValTok{2960}\NormalTok{, }\AttributeTok{by =} \DecValTok{10}\NormalTok{)}
+
+\CommentTok{\# Construct URLs}
+\NormalTok{urls }\OtherTok{\textless{}{-}} \FunctionTok{glue}\NormalTok{(}\StringTok{"\{root\}\{offsets\}"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
 \subsection{Mapping}\label{mapping}
 
 Finally, we're ready to iterate over the list of URLs we constructed. We
@@ -640,6 +805,23 @@ frame, so we use \texttt{map\_dfr} function:
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+## # A tibble: 2,970 x 3
+##    title                               artist link                              
+##    <chr>                               <chr>  <chr>                             
+##  1 Portrait of a Man (1954)            <NA>   https://collections.ed.ac.uk./rec~
+##  2 Unknown (MAR 1960)                  <NA>   https://collections.ed.ac.uk./rec~
+##  3 Male Portrait (1969)                <NA>   https://collections.ed.ac.uk./rec~
+##  4 The Sofa (1950)                     <NA>   https://collections.ed.ac.uk./rec~
+##  5 Untitled - Woman with Bun (1963)    <NA>   https://collections.ed.ac.uk./rec~
+##  6 Untitled (2007)                     <NA>   https://collections.ed.ac.uk./rec~
+##  7 Via D' Italia (Unknown)             <NA>   https://collections.ed.ac.uk./rec~
+##  8 Unknown (1950)                      <NA>   https://collections.ed.ac.uk./rec~
+##  9 Northern Highland Landscape (1934)  <NA>   https://collections.ed.ac.uk./rec~
+## 10 Untitled - City Highrise (Feb 1962) <NA>   https://collections.ed.ac.uk./rec~
+## # i 2,960 more rows
+\end{verbatim}
+
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \setcounter{enumi}{6}
@@ -648,6 +830,16 @@ frame, so we use \texttt{map\_dfr} function:
   Fill in the blanks to scrape all pages, and to create a new data frame
   called \texttt{uoe\_art}.
 \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load the scrape\_page function from previous script}
+\FunctionTok{source}\NormalTok{(}\StringTok{"scripts/02{-}scrape{-}page{-}function.R"}\NormalTok{)}
+
+\CommentTok{\# Scrape all pages and create uoe\_art data frame}
+\NormalTok{uoe\_art }\OtherTok{\textless{}{-}} \FunctionTok{map\_dfr}\NormalTok{(urls, scrape\_page)}
+\end{Highlighting}
+\end{Shaded}
 
 \subsection{Write out data}\label{write-out-data}
 
@@ -659,6 +851,13 @@ frame, so we use \texttt{map\_dfr} function:
   Finally write out the data frame you constructed into the
   \texttt{data} folder so that you can use it in the analysis section.
 \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Write the data frame to a CSV file in the data folder}
+\FunctionTok{write\_csv}\NormalTok{(uoe\_art, }\StringTok{"data/uoe\_art.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 Aim to make it to this point during the workshop.
 
@@ -701,6 +900,23 @@ numeric variable.
 **Hint:** Remember escaping special characters from yesterday's lecture? You'll need to use that trick again.
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Load the scraped data}
+\NormalTok{uoe\_art }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"data/uoe\_art.csv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Rows: 2970 Columns: 3
+## -- Column specification --------------------------------------------------------
+## Delimiter: ","
+## chr (3): title, link, artist
+## 
+## i Use `spec()` to retrieve the full column specification for this data.
+## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
+\end{verbatim}
+
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \setcounter{enumi}{8}
@@ -711,14 +927,178 @@ numeric variable.
   code, and that's OK! Read the warnings, and explain what they mean,
   and why we are ok with leaving them in given that our objective is to
   just capture \texttt{year} where it's convenient to do so.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{uoe\_art }\OtherTok{\textless{}{-}}\NormalTok{ uoe\_art }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{separate}\NormalTok{(title, }\AttributeTok{into =} \FunctionTok{c}\NormalTok{(}\StringTok{"title"}\NormalTok{, }\StringTok{"date"}\NormalTok{), }\AttributeTok{sep =} \StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{("}\NormalTok{, }\AttributeTok{extra =} \StringTok{"merge"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"right"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{date =} \FunctionTok{str\_remove}\NormalTok{(date, }\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{)$"}\NormalTok{),}
+    \AttributeTok{year =} \FunctionTok{str\_extract}\NormalTok{(date, }\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{d\{4\}"}\NormalTok{),}
+    \AttributeTok{year =} \FunctionTok{as.numeric}\NormalTok{(year)}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Explanation of warnings:} The warnings occur because some
+entries don't have parentheses (so \texttt{separate()} creates NA
+values) and some date strings don't contain 4-digit years (so
+\texttt{as.numeric()} creates NA values). This is expected and
+acceptable since not all art pieces have date information, and our goal
+is simply to extract year information where it's readily available.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{9}
+\tightlist
 \item
   Print out a summary of the data frame using the \texttt{skim()}
   function. How many pieces have artist info missing? How many have year
   info missing?
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{skim}\NormalTok{(uoe\_art)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}ll@{}}
+\caption{Data summary}\tabularnewline
+\toprule\noalign{}
+\endfirsthead
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Name & uoe\_art \\
+Number of rows & 2970 \\
+Number of columns & 5 \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ & \\
+Column type frequency: & \\
+character & 4 \\
+numeric & 1 \\
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ & \\
+Group variables & None \\
+\end{longtable}
+
+\textbf{Variable type: character}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1944}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1389}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1944}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0556}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0556}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.0833}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1250}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 14\tabcolsep) * \real{0.1528}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+skim\_variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+n\_missing
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+complete\_rate
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+min
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+max
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+empty
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+n\_unique
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+whitespace
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+title & 0 & 1.00 & 0 & 282 & 1 & 1354 & 0 \\
+date & 551 & 0.81 & 4 & 69 & 0 & 390 & 0 \\
+link & 0 & 1.00 & 53 & 56 & 0 & 2703 & 0 \\
+artist & 93 & 0.97 & 2 & 55 & 0 & 1066 & 0 \\
+\end{longtable}
+
+\textbf{Variable type: numeric}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 20\tabcolsep) * \real{0.1687}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 20\tabcolsep) * \real{0.1205}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 20\tabcolsep) * \real{0.1687}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 20\tabcolsep) * \real{0.0964}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 20\tabcolsep) * \real{0.0723}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 20\tabcolsep) * \real{0.0602}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 20\tabcolsep) * \real{0.0602}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 20\tabcolsep) * \real{0.0602}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 20\tabcolsep) * \real{0.0602}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 20\tabcolsep) * \real{0.0602}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 20\tabcolsep) * \real{0.0723}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+skim\_variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+n\_missing
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+complete\_rate
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+mean
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+sd
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p0
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p25
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p50
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p75
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+p100
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+hist
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+year & 826 & 0.72 & 1958.08 & 36.76 & 1700 & 1952 & 1960 & 1973 & 2024 &
+▁▁▁▆▇ \\
+\end{longtable}
+
+Based on the summary, we can see the number of missing values for artist
+and year information in the output above.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{10}
+\tightlist
 \item
   Make a histogram of years. Use a reasonable binwidth. Do you see
   anything out of the ordinary?
 \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{uoe\_art }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(year)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ year)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \DecValTok{10}\NormalTok{, }\AttributeTok{fill =} \StringTok{"steelblue"}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"Distribution of Art Piece Years"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Year"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Count"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{lab-08-uoe-art_files/figure-latex/histogram-years-1.pdf}}
+
+There appears to be an outlier with a very early year (possibly around
+year 2 or similar), which seems historically implausible for this
+collection.
 
 \begin{verbatim}
 **Hint:** You'll want to use `mutate()` and `if_else()` or `case_when()` to implement the correction.
@@ -735,6 +1115,56 @@ numeric variable.
   the error in the data frame and visualize the data again.
 \end{enumerate}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Find the piece with the unusual year}
+\NormalTok{uoe\_art }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(year)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{arrange}\NormalTok{(year) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{slice}\NormalTok{(}\DecValTok{1}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(title, date, year, link)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 1 x 4
+##   title              date       year link                                       
+##   <chr>              <chr>     <dbl> <chr>                                      
+## 1 "Patchwork quilt " 1700-1899  1700 https://collections.ed.ac.uk/record/102731~
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Correct the outlier year (assuming the piece with year 2 should be from a different century)}
+\NormalTok{uoe\_art }\OtherTok{\textless{}{-}}\NormalTok{ uoe\_art }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{year =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{      year }\SpecialCharTok{==} \DecValTok{2} \SpecialCharTok{\textasciitilde{}} \DecValTok{2002}\NormalTok{, }\CommentTok{\# Adjust based on actual investigation of the artwork}
+      \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}}\NormalTok{ year}
+\NormalTok{    )}
+\NormalTok{  )}
+
+\CommentTok{\# Recreate the histogram}
+\NormalTok{uoe\_art }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(year)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ year)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_histogram}\NormalTok{(}\AttributeTok{binwidth =} \DecValTok{10}\NormalTok{, }\AttributeTok{fill =} \StringTok{"steelblue"}\NormalTok{, }\AttributeTok{alpha =} \FloatTok{0.7}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"Distribution of Art Piece Years (Corrected)"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Year"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Count"}
+\NormalTok{  ) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{lab-08-uoe-art_files/figure-latex/correct-outlier-1.pdf}}
+
+The error likely occurred because our regex pattern
+\texttt{\textbackslash{}\textbackslash{}d\{4\}} captured any 4
+consecutive digits, which might have been part of a longer number or
+date format that didn't represent the actual year.
+
 \emph{If you haven't done so recently, knit, commit, and push your
 changes to GitHub with an appropriate commit message. Make sure to
 commit and push all changed files so that your Git pane is cleared up
@@ -750,6 +1180,36 @@ afterwards.}
   them?
 \end{enumerate}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{uoe\_art }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(artist)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{count}\NormalTok{(artist, }\AttributeTok{sort =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{slice}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 2
+##    artist                   n
+##    <chr>                <int>
+##  1 Unknown                346
+##  2 Emma Gillies           154
+##  3 John Bellany            23
+##  4 Zygmunt Bukowski        21
+##  5 Kirkland Main           18
+##  6 Ann F Ward              17
+##  7 Alan M. Alexander       15
+##  8 Boris Bućan             15
+##  9 Marjorie Wallace        15
+## 10 Elizabeth Blackadder    14
+\end{verbatim}
+
+The most commonly featured artist can be identified from the output
+above. They might be well-represented because they could be a faculty
+member, alumnus, or have a special relationship with the Edinburgh
+College of Art.
+
 \begin{verbatim}
 **Hint:** `str_subset()` can be helful here. You should consider how you might capture titles where the word appears as "child" and "Child".
 \end{verbatim}
@@ -762,6 +1222,40 @@ afterwards.}
   Final question! How many art pieces have the word ``child'' in their
   title? Try to figure it out, and ask for help if you're stuck.
 \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Count titles containing "child" (case{-}insensitive)}
+\NormalTok{child\_titles }\OtherTok{\textless{}{-}}\NormalTok{ uoe\_art }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\FunctionTok{str\_detect}\NormalTok{(title, }\FunctionTok{regex}\NormalTok{(}\StringTok{"child"}\NormalTok{, }\AttributeTok{ignore\_case =} \ConstantTok{TRUE}\NormalTok{)))}
+
+\FunctionTok{nrow}\NormalTok{(child\_titles)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 13
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Show some examples}
+\NormalTok{child\_titles }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(title, artist) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{slice}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 5 x 2
+##   title                                                              artist     
+##   <chr>                                                              <chr>      
+## 1 "Figure Composition with Nurse and Child, and Woman with Budgies " Edward A. ~
+## 2 "Untitled - Children Playing "                                     Monika L I~
+## 3 "Virgin and Child "                                                Unknown    
+## 4 "Virgin and Child "                                                Unknown    
+## 5 "Child's collar. Chinese"                                          Unknown
+\end{verbatim}
 
 Knit, \emph{commit, and push your changes to GitHub with an appropriate
 commit message. Make sure to commit and push all changed files so that
