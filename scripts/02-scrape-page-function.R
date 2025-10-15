@@ -31,3 +31,11 @@ scrape_page <- function(url) {
     html_nodes(".iteminfo") %>%
     html_node(".artist") %>%
     html_text()
+
+  # create and return tibble
+  tibble(
+    title = titles,
+    link = links,
+    artist = artists
+  )
+}
