@@ -45,3 +45,14 @@ artists <- page %>%
   html_nodes(".iteminfo") %>%       # Select item information containers
   html_node(".artist") %>%          # Select artist information elements
   html_text()                      # Extract artist names
+
+# put together in a data frame -------------------------------------------------
+
+#' Create a structured data frame with first ten artworks
+#' Combines scraped data into a tibble with title, artist, and link columns
+#' returns tibble with 10 rows containing artwork information
+first_ten <- tibble(
+  title = titles,    # Artwork titles
+  artist = artists,  # Artist names
+  link = links      # URLs to detailed artwork pages
+)
