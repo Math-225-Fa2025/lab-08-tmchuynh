@@ -85,3 +85,12 @@ artists <- page %>%
   html_nodes(".iteminfo") %>%
   html_node(".artist") %>%
   html_text()
+
+#' Create structured data frame with second ten artworks
+#' Combines scraped data from second page into a tibble
+#' returns tibble with 10 rows containing artwork information from second page
+second_ten <- tibble(
+  title = titles,    # Artwork titles from second page
+  artist = artists,  # Artist names from second page
+  link = links      # URLs to detailed artwork pages from second page
+)
