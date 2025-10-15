@@ -36,3 +36,12 @@ links <- page %>%
   html_node("h3 a") %>%            # Select title links
   html_attr("href") %>%            # Extract href attribute values
   str_replace("\\.", "https://collections.ed.ac.uk")  # Convert to absolute URLs
+
+# scrape artists ---------------------------------------------------------------
+
+#' Extract artist names for each artwork
+#' Scrapes artist information from elements with .artist class
+artists <- page %>%
+  html_nodes(".iteminfo") %>%       # Select item information containers
+  html_node(".artist") %>%          # Select artist information elements
+  html_text()                      # Extract artist names
