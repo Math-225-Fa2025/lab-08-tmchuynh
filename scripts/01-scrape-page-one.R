@@ -14,3 +14,14 @@ first_url <- "https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburg
 #' Read and parse the HTML content from the first page
 #' Downloads the webpage and creates an HTML document object for scraping
 page <- read_html(first_url)
+
+# scrape titles ----------------------------------------------------------------
+
+#' Extract artwork titles from the webpage
+#' Scrapes title text from h3 anchor elements within .iteminfo containers
+#' Uses CSS selectors to target specific HTML elements and cleans whitespace
+titles <- page %>%
+  html_nodes(".iteminfo") %>%        # Select item information containers
+  html_node("h3 a") %>%             # Select title links within h3 tags
+  html_text() %>%                   # Extract text content
+  str_squish()                      # Remove extra whitespace
