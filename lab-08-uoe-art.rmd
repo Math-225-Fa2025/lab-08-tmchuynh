@@ -146,11 +146,11 @@ For the ten pieces on this page we will extract `title`, `artist`, and `link` in
 Let's start with titles.
 We make use of the SelectorGadget to identify the tags for the relevant nodes:
 
-```{r iteminfo-h3a, fig.margin = TRUE, echo = FALSE}
+```{r iteminfo-h3a, fig.margin = TRUE, echo = FALSE, eval = TRUE}
 # knitr::include_graphics("img/iteminfo-h3a.gif")
 ```
 
-```{r}
+```{r eval = TRUE}
 page %>%
   html_nodes(".iteminfo") %>%
   html_node("h3 a")
@@ -158,7 +158,7 @@ page %>%
 
 Then we extract the text with `html_text()`:
 
-```{r}
+```{r eval = TRUE}
 page %>%
   html_nodes(".iteminfo") %>%
   html_node("h3 a") %>%
@@ -171,7 +171,7 @@ And get rid of all the spurious white space in the text with `str_squish()`, whi
 Take a look at the help for `str_squish()` to find out more about how it works and how it's different from `str_trim()`.
 ```
 
-```{r}
+```{r eval = TRUE}
 page %>%
   html_nodes(".iteminfo") %>%
   html_node("h3 a") %>%
@@ -181,7 +181,7 @@ page %>%
 
 And finally save the resulting data as a vector of length 10:
 
-```{r}
+```{r eval = TRUE}
 titles <- page %>%
   html_nodes(".iteminfo") %>%
   html_node("h3 a") %>%
@@ -205,7 +205,7 @@ Here the text is `Search on Google` and the `href` attribute contains the url of
 
 The moral of the story is: the link is stored in the `href` attribute.
 
-```{r}
+```{r eval = TRUE}
 page %>%
   html_nodes(".iteminfo") %>% # same nodes
   html_node("h3 a") %>% # as before
@@ -221,7 +221,7 @@ See the help for `str_replace()` to find out how it works. Remember that the fir
 
 1.  Click on one of art piece titles in your browser and take note of the url of the webpage it takes you to. Think about how that url compares to what we scraped above? How is it different? Using `str_replace()`, fix the URLs. You'll note something special happening in the `pattern` to replace. We want to replace the `.`, but we have it as `\\.`. This is because the period `.` is a special character and so we need to escape it first with backslashes, `\\`s.
 
-```{r}
+```{r eval = TRUE}
 links <- page %>%
   html_nodes(".iteminfo") %>%
   html_node("h3 a") %>%
@@ -306,7 +306,7 @@ You've been using R functions, now it's time to write your own!
 Let's start simple.
 Here is a function that takes in an argument `x`, and adds 2 to it.
 
-```{r}
+```{r eval = TRUE}
 add_two <- function(x) {
   x + 2
 }
@@ -314,14 +314,14 @@ add_two <- function(x) {
 
 Let's test it:
 
-```{r}
+```{r eval = TRUE}
 add_two(3)
 add_two(10)
 ```
 
 The skeleton for defining functions in R is as follows:
 
-```{r eval=FALSE}
+```{r eval = TRUE}
 function_name <- function(input) {
   # do something with the input(s)
   # return something
@@ -334,7 +334,7 @@ Then, a function for scraping a page should look something like:
 **Reminder:** Function names should be short but evocative verbs.
 ```
 
-```{r}
+```{r eval = TRUE}
 function_name <- function(url) {
   # read page at url
   # extract title, link, artist info for n pieces on page
@@ -344,12 +344,14 @@ function_name <- function(url) {
 
 5.  Fill in the blanks using code you already developed in the previous exercises. Name the function `scrape_page`.
 
+```{r eval = TRUE}
+```
 
 Test out your new function by running the following in the console.
 Does the output look right?
 Discuss with teammates whether you're getting the same results as before.
 
-```{r eval=FALSE}
+```{r eval = TRUE}
 scrape_page(first_url)
 scrape_page(second_url)
 ```
@@ -386,6 +388,8 @@ We can construct these URLs in R by pasting together two pieces: (1) a common (`
 Two new functions are helpful for accomplishing this: `glue()` for pasting two pieces of text and `seq()` for generating a sequence of numbers.
 
 6.  Fill in the blanks to construct the list of URLs.
+```{r eval = TRUE}
+```
 
 ## Mapping
 
@@ -398,15 +402,24 @@ There are a series of mapping functions in R (which we'll learn about in more de
 In our case `x` is the list of URLs we constructed and the function to apply to each element of `x` is the function we developed earlier, `scrape_page`.
 And as a result we want a data frame, so we use `map_dfr` function:
 
-```{r eval=FALSE}
+```{r eval = TRUE}
 map_dfr(urls, scrape_page)
 ```
 
 7.  Fill in the blanks to scrape all pages, and to create a new data frame called `uoe_art`.
 
+```{r eval = TRUE}
+# Load the scrape_page function from previous script
+# Scrape all pages and create uoe_art data frame
+```
+
 ## Write out data
 
 8.  Finally write out the data frame you constructed into the `data` folder so that you can use it in the analysis section.
+
+```{r eval = TRUE}
+# Write the data frame to a CSV file in the data folder
+```
 
 ::: {.marker}
 Aim to make it to this point during the workshop.
@@ -439,9 +452,20 @@ And once we have completed separating the single `title` column into `title` and
 **Hint:** Remember escaping special characters from yesterday's lecture? You'll need to use that trick again.
 ```
 
+```{r load-data, eval=TRUE}
+# Load the scraped data
+```
+
 9.  Fill in the blanks in to implement the data wrangling we described above. Note that this will result in some warnings when you run the code, and that's OK! Read the warnings, and explain what they mean, and why we are ok with leaving them in given that our objective is to just capture `year` where it's convenient to do so.
+
+```{r clean-data, eval=TRUE}
 10. Print out a summary of the data frame using the `skim()` function. How many pieces have artist info missing? How many have year info missing?
+
+```{r summary-data, eval=TRUE}
+```
 11. Make a histogram of years. Use a reasonable binwidth. Do you see anything out of the ordinary?
+
+```{r histogram-years, eval=TRUE}
 
 ```
 **Hint:** You'll want to use `mutate()` and `if_else()` or `case_when()` to implement the correction.
@@ -449,15 +473,29 @@ And once we have completed separating the single `title` column into `title` and
 
 12. Find which piece has the out of the ordinary year and go to its page on the art collection website to find the correct year for it. Can you tell why our code didn't capture the correct year information? Correct the error in the data frame and visualize the data again.
 
+```{r find-outlier, eval=TRUE}
+# Find the piece with the unusual year
+```
+
+```{r correct-outlier, eval=TRUE}
+# Correct the outlier year (assuming the piece with year 2 should be from a different century)
+# Recreate the histogram
+
 *If you haven't done so recently, knit, commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
 13. Who is the most commonly featured artist in the collection? Do you know them? Any guess as to why the university has so many pieces from them?
+
+```{r most-common-artist, eval=TRUE}
 
 ```
 **Hint:** `str_subset()` can be helful here. You should consider how you might capture titles where the word appears as "child" and "Child".
 ```
 
 14. Final question! How many art pieces have the word "child" in their title? Try to figure it out, and ask for help if you're stuck.
+
+```{r count-child-titles, eval=TRUE}
+# Count titles containing "child" (case-insensitive)
+```
 
 Knit, *commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards and review the md document on GitHub to make sure you're happy with the final state of your work.*
 
