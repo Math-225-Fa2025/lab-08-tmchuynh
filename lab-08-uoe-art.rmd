@@ -127,7 +127,11 @@ First, we define a new object called `first_url`, which is the link above.
 Then, we read the page at this url with the `read_html()` function from the **rvest** package.
 The code for this is already provided in `01-scrape-page-one.R`.
 
-```{r}
+```{r eval = TRUE}
+# Load required libraries
+library(tidyverse)
+library(rvest)
+
 # set url
 first_url <- "https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22?offset=0"
 
