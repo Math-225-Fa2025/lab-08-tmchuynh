@@ -449,7 +449,10 @@ map_dfr(urls, scrape_page)
 
 ```{r eval = TRUE}
 # Load the scrape_page function from previous script
+source("scripts/02-scrape-page-function.R")
+
 # Scrape all pages and create uoe_art data frame
+uoe_art <- map_dfr(urls, scrape_page)
 ```
 
 ## Write out data
