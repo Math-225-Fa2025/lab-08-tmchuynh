@@ -1,15 +1,14 @@
 ---
 title: "Lab 08 - University of Edinburgh Art Collection"
+author: "Tina Huynh"
 output: 
-  tufte::tufte_html:
-    css: ../lab.css
-    tufte_variant: "envisioned"
-    highlight: pygments
-  tufte::tufte_handout:
+  pdf_document:
     latex_engine: xelatex
-    highlight: pygments
-    keep_tex: true
+    toc: true
+    number_sections: true
+    fig_caption: true
     citation_package: natbib
+    keep_tex: true
 link-citations: true
 ---
 
@@ -39,7 +38,7 @@ In this lab we'll scrape data on all art pieces in the [Edinburgh College of Art
 # Lab prep
 
 ```{r selectorgadget, fig.margin = TRUE, echo = FALSE}
-knitr::include_graphics("img/selectorgadget.png")
+knitr::include_graphics("/home/tmchuynh/Documents/Data Science/lab-08-tmchuynh/img/selectorgadget.png")
 ```
 
 -   Download and install the SelectorGadget for your browser.
@@ -205,8 +204,8 @@ The moral of the story is: the link is stored in the `href` attribute.
 ```{r}
 page %>%
   html_nodes(".iteminfo") %>% # same nodes
-    html_node("h3 a") %>% # as before
-    html_attr("href") # but get href attribute instead of text
+  html_node("h3 a") %>% # as before
+  html_attr("href") # but get href attribute instead of text
 ```
 
 These don't really look like URLs as we know then though.
