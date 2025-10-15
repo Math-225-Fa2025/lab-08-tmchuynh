@@ -79,3 +79,9 @@ links <- page %>%
   html_node("h3 a") %>%
   html_attr("href") %>%
   str_replace("\\.", "https://collections.ed.ac.uk")
+
+#' Extract artist names from second page
+artists <- page %>%
+  html_nodes(".iteminfo") %>%
+  html_node(".artist") %>%
+  html_text()
