@@ -95,7 +95,7 @@ These packages are already installed for you.
 You can load them by running the following in your Console:
 
 ```{r eval = TRUE, message = FALSE}
-library(tidyverse) 
+library(tidyverse)
 library(robotstxt)
 library(rvest)
 ```
@@ -144,7 +144,7 @@ Let's start with titles.
 We make use of the SelectorGadget to identify the tags for the relevant nodes:
 
 ```{r iteminfo-h3a, fig.margin = TRUE, echo = FALSE}
-#knitr::include_graphics("img/iteminfo-h3a.gif")
+# knitr::include_graphics("img/iteminfo-h3a.gif")
 ```
 
 ```{r}
@@ -204,9 +204,9 @@ The moral of the story is: the link is stored in the `href` attribute.
 
 ```{r}
 page %>%
-  html_nodes(".iteminfo") %>%   # same nodes
-  html_node("h3 a") %>%         # as before
-  html_attr("href")             # but get href attribute instead of text
+  html_nodes(".iteminfo") %>% # same nodes
+    html_node("h3 a") %>% # as before
+    html_attr("href") # but get href attribute instead of text
 ```
 
 These don't really look like URLs as we know then though.
@@ -246,7 +246,7 @@ Let's start simple.
 Here is a function that takes in an argument `x`, and adds 2 to it.
 
 ```{r}
-add_two <- function(x){
+add_two <- function(x) {
   x + 2
 }
 ```
@@ -261,7 +261,7 @@ add_two(10)
 The skeleton for defining functions in R is as follows:
 
 ```{r eval=FALSE}
-function_name <- function(input){
+function_name <- function(input) {
   # do something with the input(s)
   # return something
 }
@@ -274,7 +274,7 @@ Then, a function for scraping a page should look something like:
 ```
 
 ```{r}
-function_name <- function(url){
+function_name <- function(url) {
   # read page at url
   # extract title, link, artist info for n pieces on page
   # return a n x 3 tibble
