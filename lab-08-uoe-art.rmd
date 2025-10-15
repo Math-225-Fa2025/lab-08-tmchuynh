@@ -344,6 +344,38 @@ function_name <- function(url) {
 5.  Fill in the blanks using code you already developed in the previous exercises. Name the function `scrape_page`.
 
 ```{r eval = TRUE}
+scrape_page <- function(url) {
+  # read html page
+  page <- read_html(url)
+
+  # scrape titles
+  titles <- page %>%
+    html_nodes(".iteminfo") %>%
+    html_node("h3 a") %>%
+    html_text() %>%
+    str_squish()
+
+  # scrape links
+  links <- page %>%
+    html_nodes(".iteminfo") %>%
+    html_node("h3 a") %>%
+    html_attr("href") %>%
+    str_replace("^", "https://collections.ed.ac.uk")
+
+  # scrape artists
+  artists <- page %>%
+    html_nodes(".iteminfo") %>%
+    html_node("h4 a") %>%
+    html_text() %>%
+    str_squish()
+
+  # create and return tibble
+  tibble(
+    title = titles,
+    artist = artists,
+    link = links
+  )
+}
 ```
 
 Test out your new function by running the following in the console.
