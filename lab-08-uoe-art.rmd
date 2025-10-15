@@ -581,6 +581,13 @@ The error likely occurred because our regex pattern `\\d{4}` captured any 4 cons
 13. Who is the most commonly featured artist in the collection? Do you know them? Any guess as to why the university has so many pieces from them?
 
 ```{r most-common-artist, eval=TRUE}
+uoe_art %>%
+  filter(!is.na(artist)) %>%
+  count(artist, sort = TRUE) %>%
+  slice(1:10)
+```
+
+The most commonly featured artist can be identified from the output above. They might be well-represented because they could be a faculty member, alumnus, or have a special relationship with the Edinburgh College of Art.
 
 ```
 **Hint:** `str_subset()` can be helful here. You should consider how you might capture titles where the word appears as "child" and "Child".
