@@ -255,6 +255,14 @@ first_ten <- tibble(
 
 If you haven't done so recently, c*ommit and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
+```{r eval = TRUE}
+# set url for second page
+second_url <- "https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22?offset=10"
+
+# read html page
+page <- read_html(second_url)
+```
+
 ## Functions
 
 ::: {.box}
