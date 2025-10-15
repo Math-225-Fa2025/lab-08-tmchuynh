@@ -229,6 +229,13 @@ links <- page %>%
 
 2.  Fill in the blanks to scrape artist names. Use SelectorGadget to identify which CSS selector contains the artist names. Remember to change `eval = TRUE`.
 
+```{r eval = TRUE}
+artists <- page %>%
+  html_nodes(".iteminfo") %>%
+  html_node("h4 a") %>%
+  html_text() %>%
+  str_squish()
+```
 
 ## Put it altogether
 
