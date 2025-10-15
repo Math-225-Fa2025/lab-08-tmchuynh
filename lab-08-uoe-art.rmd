@@ -562,6 +562,17 @@ uoe_art <- uoe_art %>%
   )
 
 # Recreate the histogram
+uoe_art %>%
+  filter(!is.na(year)) %>%
+  ggplot(aes(x = year)) +
+  geom_histogram(binwidth = 10, fill = "steelblue", alpha = 0.7) +
+  labs(
+    title = "Distribution of Art Piece Years (Corrected)",
+    x = "Year",
+    y = "Count"
+  ) +
+  theme_minimal()
+```
 
 *If you haven't done so recently, knit, commit, and push your changes to GitHub with an appropriate commit message. Make sure to commit and push all changed files so that your Git pane is cleared up afterwards.*
 
