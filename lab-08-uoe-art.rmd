@@ -420,6 +420,14 @@ Two new functions are helpful for accomplishing this: `glue()` for pasting two p
 
 6.  Fill in the blanks to construct the list of URLs.
 ```{r eval = TRUE}
+# Define root URL
+root <- "https://collections.ed.ac.uk/art/search/*:*/Collection:%22edinburgh+college+of+art%7C%7C%7CEdinburgh+College+of+Art%22?offset="
+
+# Create sequence of offsets
+offsets <- seq(from = 0, to = 2960, by = 10)
+
+# Construct URLs
+urls <- glue("{root}{offsets}")
 ```
 
 ## Mapping
