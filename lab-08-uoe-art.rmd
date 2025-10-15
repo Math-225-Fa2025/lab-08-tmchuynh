@@ -283,6 +283,12 @@ artists <- page %>%
   html_text() %>%
   str_squish()
 
+# create data frame
+second_ten <- tibble(
+  title = titles,
+  artist = artists,
+  link = links
+)
 ```
 
 ## Functions
