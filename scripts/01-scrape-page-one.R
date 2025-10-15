@@ -72,3 +72,10 @@ titles <- page %>%
   html_node("h3 a") %>%
   html_text() %>%
   str_squish()
+
+#' Extract links from second page and convert to absolute URLs
+links <- page %>%
+  html_nodes(".iteminfo") %>%
+  html_node("h3 a") %>%
+  html_attr("href") %>%
+  str_replace("\\.", "https://collections.ed.ac.uk")
